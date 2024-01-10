@@ -37,7 +37,9 @@ function App() {
                   left: `${x}in`,
                   width: `${width}in`,
                   height: `${height}in`,
-                  background: "blue",
+                  background: `#${Math.floor(Math.random() * 16777215).toString(
+                    16
+                  )}`,
                 }}
                 key={ind}
               />

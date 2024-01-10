@@ -26,8 +26,10 @@ class BlockPacker {
   findBestPlacement(block: IBlock): IBlockPlacement | null {
     for (let y = 0; y <= this.container.height - block.height; y += 0.1) {
       for (let x = 0; x <= this.container.width - block.width; x += 0.1) {
-        if (this.canPlaceBlockAt(block, x, y)) {
-          return { block, x, y };
+        if (
+          this.canPlaceBlockAt(block, this.roundFloat(x), this.roundFloat(y))
+        ) {
+          return { block, x: this.roundFloat(x), y: this.roundFloat(y) };
         }
       }
     }
@@ -37,7 +39,6 @@ class BlockPacker {
   canPlaceBlockAt(block: IBlock, x: number, y: number): boolean {
     for (const placement of this.getLastContainerBlockPlacements()) {
       const { block: placedBlock, x: placedX, y: placedY } = placement;
-
       if (
         x < placedX + placedBlock.width &&
         x + block.width > placedX &&
@@ -47,7 +48,6 @@ class BlockPacker {
         return false;
       }
     }
-
     return true;
   }
 
@@ -60,6 +60,10 @@ class BlockPacker {
       ...this.container,
       blockPlacements: [],
     });
+  }
+
+  roundFloat(num: number): number {
+    return Number(num.toFixed(1));
   }
 }
 
